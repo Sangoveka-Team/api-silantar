@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
             $table->string('IDlaporan', 100);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->string('nama', 150);
             $table->string('nomor', 15);
             $table->text('alamat');
             $table->dateTime('tanggal');
             $table->foreignId('kategori_lapor')->constrained('kategoris');
             $table->foreignId('status_lapor')->constrained('statuses');
-            $table->foreignId('daerah_lapor')->constrained('daerahs');
+            $table->foreignId('daerahkelurahan')->constrained('users')->onDelete('cascade');
             $table->string('maps');
             $table->timestamps();
         });

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('poin');
-            $table->string('nomor',15);
-            $table->enum('level', ['user', 'pejabat', 'dinas', 'superadmin'])->default('user');
-            $table->rememberToken();
+            $table->integer('poin')->nullable();
+            $table->string('nomor', 15);
+            $table->enum('level', ['user', 'kelurahan', 'dinas', 'superadmin'])->default('user');
+            // $table->rememberToken();
             $table->timestamps();
         });
     }
