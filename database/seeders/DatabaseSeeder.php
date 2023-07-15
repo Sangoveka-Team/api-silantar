@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahalalak@gmail.com",
             "password" => bcrypt("alalak123"),
             "poin" => null,
+            "jabatan" => "operaotr kelurahan alalak",
             "nomor" => "081932432211",
             "level" => "kelurahan",
         ]);
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahsujing@gmail.com",
             "password" => bcrypt("sujing123"),
             "poin" => null,
+            "jabatan" => "operator kelurahan sungai jingah",
             "nomor" => "081932432212",
             "level" => "kelurahan",
         ]);
@@ -36,6 +38,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahsundai@gmail.com",
             "password" => bcrypt("sundai123"),
             "poin" => null,
+            "jabatan" => "operator kelurahan sungai andai",
             "nomor" => "081932432213",
             "level" => "kelurahan",
         ]);
@@ -44,6 +47,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahangsau@gmail.com",
             "password" => bcrypt("angsau123"),
             "poin" => null,
+            "jabatan" => "operator kelurahan angsau",
             "nomor" => "081932432214",
             "level" => "kelurahan",
         ]);
@@ -52,6 +56,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahantasanbesar@gmail.com",
             "password" => bcrypt("antasanbesar123"),
             "poin" => null,
+            "jabatan" => "operator kelurahan antasan besar",
             "nomor" => "081932432215",
             "level" => "kelurahan",
         ]);
@@ -60,6 +65,7 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahantasankecil@gmail.com",
             "password" => bcrypt("antasankecil123"),
             "poin" => null,
+            "jabatan" => "operator kelurahan antasan kecil",
             "nomor" => "081932432216",
             "level" => "kelurahan",
         ]);
@@ -68,6 +74,7 @@ class DatabaseSeeder extends Seeder
             "email" => "dinasLH@gmail.com",
             "password" => bcrypt("lh123"),
             "poin" => null,
+            "jabatan" => "operator dinas lingkungan hidup",
             "nomor" => "085821791552",
             "level" => "dinas",
         ]);
@@ -76,15 +83,26 @@ class DatabaseSeeder extends Seeder
             "email" => "dinasPUPR@gmail.com",
             "password" => bcrypt("pupr123"),
             "poin" => null,
+            "jabatan" => "operator dinas pupr",
             "nomor" => "085821791553",
             "level" => "dinas",
         ]);
         User::create([
             "nama" => "Dinas Perhubungan",
             "email" => "dinasperhubungan@gmail.com",
-            "password" => bcrypt("perhubunganl123"),
+            "password" => bcrypt("perhubungan123"),
             "poin" => null,
+            "jabatan" => "operator dishub",
             "nomor" => "085821791554",
+            "level" => "dinas",
+        ]);
+        User::create([
+            "nama" => "Dinas Kominfo",
+            "email" => "dinaskominfo@gmail.com",
+            "password" => bcrypt("kominfo123"),
+            "poin" => null,
+            "jabatan" => "operator diskominfo",
+            "nomor" => "085821791555",
             "level" => "dinas",
         ]);
 

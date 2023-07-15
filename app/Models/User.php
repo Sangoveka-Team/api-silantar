@@ -44,5 +44,5 @@ class User extends Authenticatable
 
     ];
 
-    protected $level = ['user', 'kelurahan', 'dinas', 'superadmin',];
+    protected $level = ['pelapor', 'kelurahan', 'dinas', 'superadmin',];
 }

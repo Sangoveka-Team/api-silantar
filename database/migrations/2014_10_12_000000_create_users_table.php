@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('poin')->nullable();
             $table->string('nomor', 15);
-            $table->enum('level', ['user', 'kelurahan', 'dinas', 'superadmin'])->default('user');
+            $table->string('jabatan');
+            $table->enum('level', ['pelapor', 'kelurahan', 'dinas', 'superadmin'])->default('pelapor');
             // $table->rememberToken();
             $table->timestamps();
         });
