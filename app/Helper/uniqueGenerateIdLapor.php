@@ -2,7 +2,7 @@
 
     Namespace App\Helper;
 
-    Class uniqueGenerateId{
-        
+    Class uniqueGenerateIdLapor{
+
     }
 ?>
