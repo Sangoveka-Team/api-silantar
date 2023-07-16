@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('poin')->nullable();
             $table->string('nomor', 15);
-            $table->string('jabatan');
+            $table->string('jabatan')->nullable();
             $table->enum('level', ['pelapor', 'kelurahan', 'dinas', 'superadmin'])->default('pelapor');
             // $table->rememberToken();
             $table->timestamps();

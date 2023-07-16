@@ -1,7 +1,13 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DinasController;
+use App\Http\Controllers\KelurahanController;
+use Illuminate\Routing\RouteGroup;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum', 'pelapor'])->group(function () {
+    Route::get('dashboard-lapor', [LaporanController::class, 'index']);
 });
+
+Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+
+Route::post('login', [AuthController::class, 'login']);

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('kategori_lapor')->constrained('kategoris');
             $table->foreignId('status_lapor')->constrained('statuses');
             $table->foreignId('daerahkelurahan')->constrained('users')->onDelete('cascade');
+            $table->text('deskripsi');
             $table->string('maps');
             $table->timestamps();
         });
