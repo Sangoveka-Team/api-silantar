@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Helper\ApiFormatter;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class AuthController extends Controller
 {
-    function RegisterUser(Request $request){
+    public function RegisterUser(Request $request){
         $credentials = $request->validate( [
             'users' => 'required|string',
             'email' => 'required|email:dns|min:3|max:255|unique:users|confirmed',
@@ -34,4 +36,33 @@ class AuthController extends Controller
 
         
     }
+
+    public function login(Request $request){
+        try {
+            $credentials = $request->validate( [
+                'email' => 'required|email:dns',
+                'password' => 'required|min:5',
+            ]);
+    
+            if (Auth::attempt($credentials)) {
+                $user = User::where('email', $request->email)->first();
+                $token = $user->createToken('token')->plainTextToken;
+                return ApiFormatter::createApi(200, 'Authenticated User', $token);
+                
+            } else {
+                return ApiFormatter::createApi(401, 'Login Failed');
+                
+            }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'Login Failed', $error);
+        }
+    }
+
+
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+
+        return ApiFormatter::createApi(200, "logout success");
+    }
+
 }
