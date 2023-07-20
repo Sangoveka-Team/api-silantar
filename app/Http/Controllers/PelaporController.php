@@ -35,8 +35,9 @@ class PelaporController extends Controller
                 $image = $request->file('image');
                 $imageName = time() . '.' . $image->extension();
                 $image->move(public_path('img'), $imageName);
+                $path =  "public/img/" . $imageName;
                 
-                $user->image = $imageName;
+                $user->image = $path;
             } else {
                 $user->image = $user->image;
             }
