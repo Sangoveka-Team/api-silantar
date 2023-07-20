@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helper\ApiFormatter;
 
 class Dinas
 {
@@ -16,7 +17,7 @@ class Dinas
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->level !== 'dinas')
-        abort(403);
+        return ApiFormatter::createApi(404, 'not found');
         return $next($request);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helper\ApiFormatter;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class Lurah
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->level !== 'kelurahan')
-        abort(403);
+        return ApiFormatter::createApi(404, 'not found');
         return $next($request);
     }
 }

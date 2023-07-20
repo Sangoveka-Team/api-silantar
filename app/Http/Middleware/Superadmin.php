@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helper\ApiFormatter;
 
 class Superadmin
 {
@@ -16,7 +17,7 @@ class Superadmin
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->level !== 'superadmin')
-        abort(403);
+        return ApiFormatter::createApi(404, 'not found');
         return $next($request);
     }
 }
