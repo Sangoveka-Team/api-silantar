@@ -13,17 +13,22 @@ return new class extends Migration
     {
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
-            $table->string('IDlaporan', 100);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
+            $table->string('id_laporan', 100);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->string('nama', 150);
-            $table->string('nomor', 15);
+            $table->string('nomor', 16);
             $table->text('alamat');
             $table->dateTime('tanggal');
             $table->foreignId('kategori_lapor')->constrained('kategoris');
             $table->foreignId('status_lapor')->constrained('statuses');
-            $table->foreignId('daerahkelurahan')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('daerah_kelurahan')->nullable();
+            $table->foreign('daerah_kelurahan')->references('id')->on('users')->onDelete('set null');
+            $table->unsignedBigInteger('dinas_ajuan')->nullable();
+            $table->foreign('dinas_ajuan')->references('id')->on('users')->onDelete('set null');
             $table->text('deskripsi');
             $table->string('maps');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
