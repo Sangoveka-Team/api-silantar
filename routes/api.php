@@ -5,6 +5,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PelaporController;
 use App\Http\Controllers\DinasController;
 use App\Http\Controllers\KelurahanController;
 use Illuminate\Routing\RouteGroup;
@@ -22,6 +23,8 @@ use Illuminate\Routing\RouteGroup;
 
 Route::middleware(['auth:sanctum', 'pelapor'])->group(function () {
     Route::get('dashboard-lapor', [LaporanController::class, 'index']);
+    Route::get('profile-pelapor', [PelaporController::class, 'profile']);
+    Route::post('updateprofile-pelapor', [PelaporController::class, 'updateProfile']);
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
