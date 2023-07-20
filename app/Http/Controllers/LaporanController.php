@@ -33,7 +33,7 @@ class LaporanController extends Controller
 
             $laporanTerakhir = Laporan::where('user_id', auth()->user()->id)->latest()->first();
 
-            $laporanImages = Images::where('laporan_id', $laporanTerakhir->id)->latest()->first();
+            $laporanImages = Images::where('laporan_id', $laporanTerakhir->id)->first();
 
             $poinUser = auth()->user()->poin;
 
