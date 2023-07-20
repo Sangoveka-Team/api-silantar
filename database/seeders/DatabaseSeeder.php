@@ -23,99 +23,121 @@ class DatabaseSeeder extends Seeder
             "nama" => "Kelurahan Alalak",
             "email" => "lurahalalak@gmail.com",
             "password" => bcrypt("alalak123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operaotr kelurahan alalak",
             "nomor" => "6281932432211",
+            "daerah" => "Alalak",
+            "image" => "imgProfil1.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Sungai Jingah",
             "email" => "lurahsujing@gmail.com",
             "password" => bcrypt("sujing123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator kelurahan sungai jingah",
             "nomor" => "6281932432212",
+            "daerah" => "Sungai Jingah",
+            "image" => "imgProfil2.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Sungai Andai",
             "email" => "lurahsundai@gmail.com",
             "password" => bcrypt("sundai123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator kelurahan sungai andai",
             "nomor" => "6281932432213",
+            "daerah" => "Sungai Andai",
+            "image" => "imgProfil3.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Angsau",
             "email" => "lurahangsau@gmail.com",
             "password" => bcrypt("angsau123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator kelurahan angsau",
             "nomor" => "6281932432214",
+            "daerah" => "Angsau",
+            "image" => "imgProfil4.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Antasan Besar",
             "email" => "lurahantasanbesar@gmail.com",
             "password" => bcrypt("antasanbesar123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator kelurahan antasan besar",
             "nomor" => "6281932432215",
+            "daerah" => "Antasan Besar",
+            "image" => "imgProfil5.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Antasan Kecil",
             "email" => "lurahantasankecil@gmail.com",
             "password" => bcrypt("antasankecil123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator kelurahan antasan kecil",
             "nomor" => "6281932432216",
+            "daerah" => "Antasan Kecil",
+            "image" => "imgProfil6.jpg",
             "level" => "kelurahan",
         ]);
         User::create([
             "nama" => "Dinas Lingkungan Hidup",
             "email" => "dinasLH@gmail.com",
             "password" => bcrypt("lh123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator dinas lingkungan hidup",
             "nomor" => "6285821791552",
+            "daerah" => "Banjarmasin",
+            "image" => "imgProfil7.jpg",
             "level" => "dinas",
         ]);
         User::create([
             "nama" => "Dinas Pekerjaan Umum dan Perumahan Rakyat",
             "email" => "dinasPUPR@gmail.com",
             "password" => bcrypt("pupr123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator dinas pupr",
             "nomor" => "6285821791553",
+            "daerah" => "Banjarmasin",
+            "image" => "imgProfil8jpg",
             "level" => "dinas",
         ]);
         User::create([
             "nama" => "Dinas Perhubungan",
             "email" => "dinasperhubungan@gmail.com",
             "password" => bcrypt("perhubungan123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator dishub",
             "nomor" => "6285821791554",
+            "daerah" => "Banjarmasin",
+            "image" => "imgProfil9.jpg",
             "level" => "dinas",
         ]);
         User::create([
             "nama" => "Dinas Kominfo",
             "email" => "dinaskominfo@gmail.com",
             "password" => bcrypt("kominfo123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => "operator diskominfo",
             "nomor" => "6285821791555",
+            "daerah" => "Banjarmasin",
+            "image" => "imgProfil10",
             "level" => "dinas",
         ]);
         User::create([
             "nama" => "ricko",
             "email" => "rickosog@gmail.com",
             "password" => bcrypt("silantar123"),
-            "poin" => null,
+            "poin" => 0,
             "jabatan" => null,
             "nomor" => "6281932432218",
+            "daerah" => "-",
+            "image" => "ricko.jpg",
             "level" => "pelapor",
         ]);
 
@@ -149,9 +171,12 @@ class DatabaseSeeder extends Seeder
         Status::create([
             "status_laporan" => "Tuntas",
         ]);
+        Status::create([
+            "status_laporan" => "Diserahkan ke Dinas",
+        ]);
 
         Laporan::create([
-            "IDLaporan" => "SILT000001",
+            "id_laporan" => "SILT000001",
             "user_id" => 11,
             "nama" => "ricko",
             "nomor" => "6281932432218",
@@ -160,8 +185,26 @@ class DatabaseSeeder extends Seeder
             "maps" => "0997hrh, 8397932779239742",
             "kategori_lapor" => 1,
             "status_lapor" => 1,
-            "daerahkelurahan" => 3,
+            "daerah_kelurahan" => 3,
+            "dinas_ajuan" => null,
+            "notes" => null,
             "deskripsi" => "di jalan padat karya terdapat sebuah TPS yang tidak semestinya (di dalam lingungan warga)",
+        ]);
+
+        Laporan::create([
+            "id_laporan" => "SILT000002",
+            "user_id" => null,
+            "nama" => "syifa",
+            "nomor" => "6281932432217",
+            "alamat" => "Jalan jalan ke kota banjarmasin",
+            "tanggal" => Carbon::now()->format('Y-m-d H:i:s'),
+            "maps" => "0997hrh, 8397932779239742",
+            "kategori_lapor" => 1,
+            "status_lapor" => 2,
+            "daerah_kelurahan" => 7,
+            "dinas_ajuan" => null,
+            "notes" => null,
+            "deskripsi" => "di jalan terdapat banyak kerusakan",
         ]);
 
         Images::create([
