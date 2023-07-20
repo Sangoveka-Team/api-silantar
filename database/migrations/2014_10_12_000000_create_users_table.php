@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nomor', 15);
             $table->string('jabatan')->nullable();
             $table->string('daerah');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->enum('level', ['pelapor', 'kelurahan', 'dinas', 'superadmin'])->default('pelapor');
             // $table->rememberToken();
             $table->timestamps();
