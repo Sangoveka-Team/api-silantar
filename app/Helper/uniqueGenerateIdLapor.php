@@ -2,6 +2,7 @@
 
 Namespace App\Helper;
 use Illuminate\Support\Str;
+use App\Models\Laporan;
 
 Class uniqueGenerateIdLapor
 {
@@ -9,7 +10,7 @@ Class uniqueGenerateIdLapor
     {
         $randomString = Str::random($length);
 
-        while ($model->where($field, $randomString)->exists()) {
+        while (Laporan::where($field, $randomString)->exists()) {
             $randomString = Str::random($length);
         }
 
