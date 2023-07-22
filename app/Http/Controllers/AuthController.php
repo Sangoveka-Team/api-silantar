@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Helper\ApiFormatter;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class AuthController extends Controller
 {
@@ -15,25 +17,29 @@ class AuthController extends Controller
             'users' => 'required|string',
             'email' => 'required|email:dns|min:3|max:255|unique:users|confirmed',
             'password' => 'required|min:5|max:255',
+            'nomor' => 'required',
         ]);
 
         $user = New User();
             $user->email = $request->email;
             $user->name = $request->nama;
             $user->password = bcrypt($request->password);
-            $user->phonenumber = '62' . $request->phone;
+            $user->nomor = '62' . $request->nomor;
             $user->birth = 'Silahkan isi tanggal lahir anda';
             $user->image = 'user.svg';
             $user->havebengkel = false;
 
             if($user->save()){
+                SendEmailVerificationNotification();
                 $token = $user->createToken('token')->plainTextToken;
                 return ApiFormatter::createApi(200, 'register berhasil', $token);
             } else{
                 return ApiFormatter::createApi(401, 'register gagal');
             }
 
+            event(new Registered($user));
 
+            Auth::login($user);
         
     }
 

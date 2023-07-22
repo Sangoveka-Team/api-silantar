@@ -22,12 +22,28 @@ use Illuminate\Routing\RouteGroup;
 */
 
 Route::middleware(['auth:sanctum', 'pelapor'])->group(function () {
-    Route::get('dashboard-lapor', [LaporanController::class, 'index']);
     Route::get('profile-pelapor', [PelaporController::class, 'profile']);
     Route::post('updateprofile-pelapor', [PelaporController::class, 'updateProfile']);
+    Route::post('data-lapor', [LaporanController::class, 'create']);
+    Route::post('post-lapor', [LaporanController::class, 'store']);
+
+});
+Route::get('dashboard-lapor', [LaporanController::class, 'index']);
+
+Route::middleware(['auth:sanctum', 'kelurahan'])->group(function () {
+    
+});
+
+Route::middleware(['auth:sanctum', 'dinas'])->group(function () {
+    
+});
+
+Route::middleware(['auth:sanctum', 'superadmin'])->group(function () {
+    
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-
 Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::get('email/verify/{id}', [AuthController::class, 'verify'])->name('verification.verify');
+Route::post('post-lapor-guest', [LaporanController::class, 'store']);
