@@ -137,7 +137,7 @@ class DatabaseSeeder extends Seeder
             "jabatan" => null,
             "nomor" => "6281932432218",
             "daerah" => "-",
-            "image" => "ricko.jpg",
+            "image" => "public/img/ricko.jpg",
             "level" => "pelapor",
         ]);
 
@@ -187,7 +187,9 @@ class DatabaseSeeder extends Seeder
             "status_lapor" => 1,
             "daerah_kelurahan" => 3,
             "dinas_ajuan" => null,
-            "notes" => null,
+            "catatan_kelurahan" => null,
+            "catatan_laporan_kelurahan" => null,
+            "catatan_laporan_dinas" => null,
             "deskripsi" => "di jalan padat karya terdapat sebuah TPS yang tidak semestinya (di dalam lingungan warga)",
         ]);
 
@@ -203,7 +205,9 @@ class DatabaseSeeder extends Seeder
             "status_lapor" => 2,
             "daerah_kelurahan" => 7,
             "dinas_ajuan" => null,
-            "notes" => null,
+            "catatan_kelurahan" => null,
+            "catatan_laporan_kelurahan" => null,
+            "catatan_laporan_dinas" => null,
             "deskripsi" => "di jalan terdapat banyak kerusakan",
         ]);
 
