@@ -63,9 +63,22 @@ class LaporanController extends Controller
      */
     public function create()
     {
-        $status = Status::all();
-        $kategori = Kategori::all();
-        $daerah = User::where('level', 'kelurahan')->pluck('daerah_kelurahan')->get();
+        try {
+            $status = Status::pluck('status_laporan', 'id')->all();
+            $kategori = Kategori::pluck('kategori_laporan', 'id')->all();
+            $daerah = User::where('level', 'kelurahan')->pluck('daerah', 'id')->all();
+
+            $data = [
+                "statusLapor" => $status,
+                "kategoriLapor" => $kategori,
+                "daerah Laporan" => $daerah,
+            ];
+            
+            return ApiFormatter::createApi(200, 'success', $data);
+
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 
     /**
@@ -82,65 +95,6 @@ class LaporanController extends Controller
                 //     'daerah_kelurahan' => 'required',
                 //     'deskripsi' => 'required',
                 //     'maps' => 'required',
-                //     'image' => 'required',
-                // ]);
-
-                // $laporan = new Laporan;
-
-                // $laporan->id_laporan = uniqueGenerateIdLapor::generateUniqueRandomString(10, Laporan::class, 'id_laporan');
-                // $laporan->user_id = auth()->user()->id;
-                // $laporan->nama = auth()->user()->nama;
-                // $laporan->nomor = auth()->user()->nomor;
-                // $laporan->alamat = $request->alamat;
-                // $laporan->tanggal = Carbon::now()->format('Y-m-d H:i:s');
-                // $laporan->kategori_lapor = $request->kategori_lapor;
-                // $laporan->status_lapor = 1;
-                // $laporan->daerah_kelurahan = $request->daerah_kelurahan;
-                // $laporan->dinas_ajuan = null;
-                // $laporan->deskripsi = $request->deskripsi;
-                // $laporan->maps = $request->maps;
-                // $laporan->catatan_kelurahan = null;
-                // $laporan->catatan_laporan_kelurahan = null;
-                // $laporan->catatan_laporan_dinas = null;
-
-                // $images = new Images;
-
-                // $image = $request->file('image');
-                // $imageName = time() . '.' . $image->extension();
-                // $image->move(public_path('img'), $imageName);
-                // $path =  "public/img/" . $imageName;
-
-                // $images->laporan_id = $laporan->id;
-                // $images->image_name = $path;
-
-                dd('ini ketika user login membuat laporan');
-
-                // if ($laporan->create()) {
-                //     $data = [
-                //         "laporan" => $laporan,
-                //         "images" => $images,
-                //     ];
-
-                //     return ApiFormatter::createApi(200, 'success', $data);
-                // } else {
-                //     return ApiFormatter::createApi(401, 'failed');
-                // }
-                
-
-            } catch (\Throwable $error) {
-                // return ApiFormatter::createApi(401, 'failed', $error);
-            }
-
-        } else {
-            try {
-                // $request->validate( [
-                //     'alamat' => 'required',
-                //     'tanggal' => 'required',
-                //     'kategori_lapor' => 'required',
-                //     'daerah_kelurahan' => 'required',
-                //     'deskripsi' => 'required',
-                //     'maps' => 'required',
-                //     // 'image' => 'required',
                 // ]);
 
                 $laporan = new Laporan;
@@ -154,11 +108,10 @@ class LaporanController extends Controller
                 $month = $carbonDate->month;
                 $year = $carbonDate->year;
 
-                $laporan->id_laporan = "SILT" . Carbon::now()->format('d') . Carbon::now()->format('m') . Carbon::now()->format('Y') . $str;
-                dd($laporan->id_laporan);
-                $laporan->user_id = null;
-                $laporan->nama = $request->nama;
-                $laporan->nomor = $request->nomor;
+                $laporan->id_laporan = "SILT" . $day . $month . $year . $str;
+                $laporan->user_id = auth()->user()->id;
+                $laporan->nama = auth()->user()->nama;
+                $laporan->nomor = auth()->user()->nomor;
                 $laporan->alamat = $request->alamat;
                 $laporan->tanggal = Carbon::now()->format('Y-m-d H:i:s');
                 $laporan->kategori_lapor = $request->kategori_lapor;
@@ -171,24 +124,110 @@ class LaporanController extends Controller
                 $laporan->catatan_laporan_kelurahan = null;
                 $laporan->catatan_laporan_dinas = null;
 
-                $images = new Images;
+                $laporan->save();
 
-                $image = $request->file('image');
-                $imageName = time() . '.' . $image->extension();
-                $image->move(public_path('img'), $imageName);
-                $path =  "public/img/" . $imageName;
+                if ($request->hasFile('image')) {
+                    $images = $request->file('image');   
 
-                $images->laporan_id = $laporan->id;
-                $images->image_name = $path;
+                    foreach ($images as $image) {
+                        $imageName = time() . '.' . $image->extension();
+                        $image->move(public_path('img'), $imageName);
+                        $path = 'public/img/' . $imageName;
+                        $fileImage = new Images;
+                        $fileImage->laporan_id = $laporan->id;
+                        $fileImage->image_name = $path;
 
-                // dd($request);
+                        // dd($fileImage);
+                        $fileImage->save();
+
+                    }
+                }
+
+                $imgLaporan = Images::where('laporan_id', $laporan->id)->get();
+
+
+                if ($imgLaporan !== null) {
+                    $data = [
+                        "laporan" => $laporan,
+                        "images" => $imgLaporan,
+                    ];
+
+                return ApiFormatter::createApi(200, 'success', $data);
+                } else {
+                    return ApiFormatter::createApi(401, 'failed');
+                }
+                
+
+            } catch (\Throwable $error) {
+                return ApiFormatter::createApi(401, 'failed', $error);
+            }
+
+        } else {
+            try {
+                // $request->validate([
+                //     'alamat' => 'required',
+                //     'tanggal' => 'required',
+                //     'kategori_lapor' => 'required',
+                //     'daerah_kelurahan' => 'required',
+                //     'deskripsi' => 'required',
+                //     'maps' => 'required',
+                // ]);
+
+                $laporan = new Laporan;
+
+                $str = uniqueGenerateIdLapor::generateUniqueRandomString(10, Laporan::class, 'id_laporan');
+
+                $carbonDate = Carbon::now();
+
+                // Mengeluarkan tanggal, bulan, dan tahun
+                $day = $carbonDate->day;
+                $month = $carbonDate->month;
+                $year = $carbonDate->year;
+
+                $laporan->id_laporan = "SILT" . $day . $month . $year . $str;
+                $laporan->user_id = null;
+                $laporan->nama = $request->nama;
+                $laporan->nomor = '62' . $request->nomor;
+                $laporan->alamat = $request->alamat;
+                $laporan->tanggal = Carbon::now()->format('Y-m-d H:i:s');
+                $laporan->kategori_lapor = $request->kategori_lapor;
+                $laporan->status_lapor = 1;
+                $laporan->daerah_kelurahan = $request->daerah_kelurahan;
+                $laporan->dinas_ajuan = null;
+                $laporan->deskripsi = $request->deskripsi;
+                $laporan->maps = $request->maps;
+                $laporan->catatan_kelurahan = null;
+                $laporan->catatan_laporan_kelurahan = null;
+                $laporan->catatan_laporan_dinas = null;
+
+                $laporan->save();
+
+                if ($request->hasFile('image')) {
+                    $images = $request->file('image');   
+
+                    foreach ($images as $image) {
+                        $imageName = time() . '.' . $image->extension();
+                        $image->move(public_path('img'), $imageName);
+                        $path = 'public/img/' . $imageName;
+                        $fileImage = new Images;
+                        $fileImage->laporan_id = $laporan->id;
+                        $fileImage->image_name = $path;
+
+                        // dd($fileImage);
+                        $fileImage->save();
+
+                    }
+                }
+
+                $imgLaporan = Images::where('laporan_id', $laporan->id)->get();
+                // dd($imgLaporan);
 
                 // dd('ini ketika user guest membuat laporan', $laporan);
 
-                if ($laporan->create() && $images->create()) {
+                if ($imgLaporan !== null) {
                     $data = [
                         "laporan" => $laporan,
-                        "images" => $images,
+                        "images" => $imgLaporan,
                     ];
 
                     return ApiFormatter::createApi(200, 'success', $data);
@@ -198,7 +237,7 @@ class LaporanController extends Controller
                 
 
             } catch (\Throwable $error) {
-                return ApiFormatter::createApi(401, 'failed', $error);
+                // return ApiFormatter::createApi(401, 'failed', $error);
             }
         }
         

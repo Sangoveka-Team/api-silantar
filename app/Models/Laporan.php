@@ -11,4 +11,13 @@ class Laporan extends Model
 
     protected $guarded = ['id'];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function kategoriLapor(){
+        return $this->belongsTo(Kategori::class);
+    }
+    public function statusLapor(){
+        return $this->belongsTo(Status::class);
+    }
 }

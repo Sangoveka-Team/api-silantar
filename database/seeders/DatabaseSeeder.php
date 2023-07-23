@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
             "maps" => "0997hrh, 8397932779239742",
             "kategori_lapor" => 1,
             "status_lapor" => 2,
-            "daerah_kelurahan" => 7,
+            "daerah_kelurahan" => 6,
             "dinas_ajuan" => null,
             "catatan_kelurahan" => null,
             "catatan_laporan_kelurahan" => null,
