@@ -13,7 +13,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 class AuthController extends Controller
 {
     public function RegisterUser(Request $request){
-        $credentials = $request->validate( [
+        $request->validate( [
             'users' => 'required|string',
             'email' => 'required|email:dns|min:3|max:255|unique:users|confirmed',
             'password' => 'required|min:5|max:255',
@@ -53,7 +53,13 @@ class AuthController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = User::where('email', $request->email)->first();
                 $token = $user->createToken('token')->plainTextToken;
-                return ApiFormatter::createApi(200, 'Authenticated User', $token);
+
+                $data = [
+                    "token" => $token,
+                    "userLevel" => $user->level,
+                ];
+
+                return ApiFormatter::createApi(200, 'Authenticated User', $data);
                 
             } else {
                 return ApiFormatter::createApi(401, 'Login Failed');
