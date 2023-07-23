@@ -248,7 +248,20 @@ class LaporanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $images = Images::where('laporan_id', $id)->get();
+
+            $data = [
+                "dataLaporan" => $laporan,
+                "gambarLaporan" => $images,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(200, 'success', $error);
+        }
     }
 
     /**
