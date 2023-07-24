@@ -12,34 +12,39 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class AuthController extends Controller
 {
-    public function RegisterUser(Request $request){
+    public function registerUser(Request $request){
         $request->validate( [
-            'users' => 'required|string',
-            'email' => 'required|email:dns|min:3|max:255|unique:users|confirmed',
+            'nama' => 'required|string',
+            'email' => 'required|email:dns|min:3|max:255|unique:users',
             'password' => 'required|min:5|max:255',
             'nomor' => 'required',
         ]);
 
-        $user = New User();
+        try {
+            $user = New User();
+            $user->nama = $request->nama;
             $user->email = $request->email;
-            $user->name = $request->nama;
             $user->password = bcrypt($request->password);
             $user->nomor = '62' . $request->nomor;
-            $user->birth = 'Silahkan isi tanggal lahir anda';
-            $user->image = 'user.svg';
-            $user->havebengkel = false;
+            // $user->image = null;
+            // $user->email_verified_at = null;
+            // $user->jabatan = null;
+            $user->poin = 0;
+            $user->daerah = '-';
 
             if($user->save()){
-                SendEmailVerificationNotification();
-                $token = $user->createToken('token')->plainTextToken;
-                return ApiFormatter::createApi(200, 'register berhasil', $token);
+                event(new Registered($user));
+                // Auth::login($user);
+                $user->sendEmailVerificationNotification();
+                // $token = $user->createToken('token')->plainTextToken;
+                return ApiFormatter::createApi(200, 'register berhasil', $user);
             } else{
                 return ApiFormatter::createApi(401, 'register gagal');
             }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'register gagal', $error); 
+        }
 
-            event(new Registered($user));
-
-            Auth::login($user);
         
     }
 
@@ -57,6 +62,7 @@ class AuthController extends Controller
                 $data = [
                     "token" => $token,
                     "userLevel" => $user->level,
+                    "userEmailVerified" => $user->email_verified_at,
                 ];
 
                 return ApiFormatter::createApi(200, 'Authenticated User', $data);
