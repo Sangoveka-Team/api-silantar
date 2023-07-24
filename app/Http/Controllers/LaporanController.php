@@ -267,9 +267,37 @@ class LaporanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function riwayat()
     {
-        //
+        try {
+            $today = Carbon::today();
+            $yesterday = Carbon::yesterday();
+            $oneWeekAgo = Carbon::now()->subWeek();
+            $oneMonthAgo = Carbon::now()->subMonth();
+
+            // dd($yesterday);
+
+            $laporanHariIni = Laporan::where('user_id', auth()->user()->id)->where('tanggal', '>=', $today)->get();
+            $laporanKemarin = Laporan::where('user_id', auth()->user()->id)->where('tanggal', '>=', $yesterday)->where('tanggal', '<', $today)->orderBy('tanggal', 'desc')->get();
+            $laporanMingguIni = Laporan::where('user_id', auth()->user()->id)->where('tanggal', '>=', $oneWeekAgo)->where('tanggal', '<', $yesterday)->orderBy('tanggal', 'desc')->get();
+            $laporanBulanIni = Laporan::where('user_id', auth()->user()->id)->where('tanggal', '>=', $oneMonthAgo)->where('tanggal', '<', $oneWeekAgo)->orderBy('tanggal', 'desc')->get();
+            $laporanLebihLama = Laporan::where('user_id', auth()->user()->id)->where('tanggal', '<', $oneMonthAgo)->get();
+
+            $data = [
+                'laporanHariIni' => $laporanHariIni,
+                'laporanKemarin' => $laporanKemarin,
+                'laporanMingguIni' => $laporanMingguIni,
+                'laporanBulanIni' => $laporanBulanIni,
+                'laporanLebihLama' => $laporanLebihLama,
+            ];
+
+            return ApiFormatter::createApi(200, 'success get data', $data);
+
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'success get data', $error);
+        }
+
+        
     }
 
     /**
