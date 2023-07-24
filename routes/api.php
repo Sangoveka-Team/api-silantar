@@ -9,6 +9,8 @@ use App\Http\Controllers\PelaporController;
 use App\Http\Controllers\DinasController;
 use App\Http\Controllers\KelurahanController;
 use Illuminate\Routing\RouteGroup;
+use App\Http\Controllers\VerifyEmailController;
+use App\Http\Controllers\SuperadminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,7 @@ Route::middleware(['auth:sanctum', 'pelapor'])->group(function () {
     Route::get('profile-pelapor', [PelaporController::class, 'profile']);
     Route::post('updateprofile-pelapor', [PelaporController::class, 'updateProfile']);
     Route::get('data-lapor', [LaporanController::class, 'create']);
+    Route::get('riwayat-lapor', [LaporanController::class, 'riwayat']);
     Route::get('show-laporan/{id}', [LaporanController::class, 'show']);
     Route::post('post-lapor', [LaporanController::class, 'store']);
     Route::get('dashboard-lapor', [LaporanController::class, 'index']);
@@ -46,11 +49,14 @@ Route::middleware(['auth:sanctum', 'dinas'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'superadmin'])->group(function () {
+    Route::get('dashboard-superadmin', [SuperadminController::class, 'index']);
     
 });
 
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'registerUser']);
 Route::get('email/verify/{id}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::post('post-lapor-guest', [LaporanController::class, 'store']);
+
+Route::get('email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->name('verification.verify');
