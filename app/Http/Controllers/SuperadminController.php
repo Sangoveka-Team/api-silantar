@@ -14,24 +14,23 @@ class SuperadminController extends Controller
     public function index(){
         try {
             $allUser = User::all();
-            $allLaporanBelumDiproses = User::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 1)->get();
-            $allLaporanDiproses = User::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 2)->get();
-            $allLaporanDitolak = User::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 3)->get();
-            $allLaporanTuntas = User::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 4)->get();
+            $userDinas = User::where('level', 'dinas')->get();
+            $userKelurahan = User::where('level', 'kelurahan')->get();
+            $userPelapor = User::where('level', 'pelapor')->get();
 
             $userCount = $allUser->count();
-            $laporanBelumDiprosesCount = $allLaporanBelumDiproses->count();
-            $laporaniprosesCount = $allLaporanDiproses->count();
-            $laporanDitolakCount = $allLaporanDitolak->count();
+            $userDinasCount = $userDinas->count();
+            $userKelurahanCount = $userKelurahan->count();
+            $userPelaporCount = $userPelapor->count();
 
             $namaUser = auth()->user()->nama;
 
 
             $data = [
                 "jumlahUser" => $userCount,
-                "jumlahAkunDinas" => $laporanBelumDiprosesCount,
-                "jumlahAkunKelurahan" => $laporaniprosesCount,
-                "jumlahAkunPelapor" => $laporanDitolakCount,
+                "jumlahAkunDinas" => $userDinasCount,
+                "jumlahAkunKelurahan" => $userKelurahanCount,
+                "jumlahAkunPelapor" => $userPelaporCount,
                 "namaSuperadmin" => $namaUser,
                 "allUser" => $allUser,
             ];
@@ -44,13 +43,21 @@ class SuperadminController extends Controller
         }
     }
 
-    public function createUser(){
-        $userLevel = User::pluck('level');
+    // public function createUser(){
+    //     try {
+    //         $userLevel = ['pelapor', 'kelurahan', 'dinas', 'pelapor'];
 
-        // foreach (StatusEnum::getValues() as $value) {
-        //     // echo $value . PHP_EOL;
-        // }
-    }
+    //         if ($userLevel) {
+    //             return ApiFormatter::createApi(200, 'success', $userLevel);
+    //         } else{
+    //             return ApiFormatter::createApi(401, 'failed');
+    //         }
+            
+    //     } catch (Exception $error) {
+    //         return ApiFormatter::createApi(401, 'failed', $error);
+
+    //     }
+    // }
 
 
     public function storeUser(Request $request){
@@ -58,8 +65,9 @@ class SuperadminController extends Controller
             $user = new User;
 
             $user->nama = $request->nama;
-            $user->nomor = $request->nomor;
+            $user->nomor = '62' . $request->nomor;
             $user->email = $request->email;
+            $user->level = $request->level;
             $user->daerah = $request->daerah;
             $user->jabatan = $request->jabatan;
             $user->password = bcrypt($request->password);
@@ -70,7 +78,7 @@ class SuperadminController extends Controller
             if ($user->save()) {
                 return ApiFormatter::createApi(200, 'success', $user);
             } else{
-            return ApiFormatter::createApi(401, 'failed');
+                return ApiFormatter::createApi(401, 'failed');
             }
 
         } catch (Exception $error) {
