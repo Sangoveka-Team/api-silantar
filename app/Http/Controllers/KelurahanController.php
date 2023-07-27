@@ -10,6 +10,7 @@ use Exception;
 use App\Models\Images;
 use App\Models\Kategori;
 use App\Models\Status;
+use App\Models\Notes;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -25,7 +26,7 @@ class KelurahanController extends Controller
         try {
             $allLaporan = Laporan::where('daerah_kelurahan', auth()->user()->id)->get();
             $allLaporanBelumDiproses = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 1)->get();
-            $allLaporanDiproses = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 2)->get();
+            $allLaporanDiproses = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 2)->orWhere('status_lapor', 5)->get();
             $allLaporanDitolak = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 3)->get();
             $allLaporanTuntas = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 4)->get();
 
@@ -35,7 +36,8 @@ class KelurahanController extends Controller
             $laporanDitolakCount = $allLaporanDitolak->count();
             $laporanTuntasCount = $allLaporanTuntas->count();
 
-            $namaUser = auth()->user()->nama;
+            $namaUser = auth()->user()->nama
+            ;
 
 
             $data = [
@@ -115,30 +117,97 @@ class KelurahanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $images = Images::where('laporan_id', $id)->get();
+
+            $status = Status::all();
+
+            $data = [
+                "dataLaporan" => $laporan,
+                "gambarLaporan" => $images,
+                "statusLaporan" => $status,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function updateStatusLapor(Request $request, $id){
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $laporan->status_lapor = $request->status_lapor;
+    
+            if ($laporan->save()) {
+                return ApiFormatter::createApi(200, 'success', $laporan);
+            } else{
+                return ApiFormatter::createApi(200, 'failed');
+            }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+
+    public function ajuanKeDinas(Request $request, $id){
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $laporan->dinas_ajuan = $request->dinas_ajuan;
+            $laporan->status_lapor = 5;
+
+            $laporan->save();
+
+            $notes = new Notes;
+
+            $notes->Laporan_id = $id;
+            $notes->penulis = auth()->user()->jabatan;
+            $notes->deskripsi_tambahan = $request->deskripsi_tambahan;
+            $notes->note = $request->note;
+
+    
+            if ($notes->save()) {
+                $data = [
+                    'laporan' => $laporan,
+                    'noteKelurahan' => $notes,
+                ];
+
+                return ApiFormatter::createApi(200, 'success', $data);
+            } else{
+                return ApiFormatter::createApi(200, 'failed');
+            }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function cekUserPelapor($id){
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            if ($laporan->user_id !== null) {
+                $userPelapor = User::findOrFail($laporan->user_id);
+
+            } else {
+                $userPelapor = [
+                    "nama" => $laporan->nama, 
+                    "nomor" => $laporan->nomor,
+                ];
+            }
+            
+
+            $data = [
+                "detailUser" => $userPelapor,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
+
 }

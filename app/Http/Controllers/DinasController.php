@@ -113,30 +113,44 @@ class DinasController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $images = Images::where('laporan_id', $id)->get();
+
+            $data = [
+                "dataLaporan" => $laporan,
+                "gambarLaporan" => $images,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(200, 'success', $error);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function cekUserPelapor(string $id){
+        try {
+            $laporan = Laporan::findOrFail($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            if ($laporan->user_id !== null) {
+                $userPelapor = User::findOrFail($laporan->user_id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            } else {
+                $userPelapor = [
+                    "nama" => $laporan->nama, 
+                    "nomor" => $laporan->nomor,
+                ];
+            }
+            
+
+            $data = [
+                "detailUser" => $userPelapor,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 }

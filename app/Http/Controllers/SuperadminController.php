@@ -136,4 +136,44 @@ class SuperadminController extends Controller
             return ApiFormatter::createApi(401, 'failed', $error);
         }
     }
+
+    public function cekUserPelapor(string $id){
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            if ($laporan->user_id !== null) {
+                $userPelapor = User::findOrFail($laporan->user_id);
+
+            } else {
+                $userPelapor = [
+                    "nama" => $laporan->nama, 
+                    "nomor" => $laporan->nomor,
+                ];
+            }
+            
+
+            $data = [
+                "detailUser" => $userPelapor,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
+    public function deleteUser(string $id){
+        try {
+            $user = User::findOrFail($id);
+
+            if ($user->delete()) {
+                return ApiFormatter::createApi(200, 'success');
+            } else {
+                return ApiFormatter::createApi(401, 'failed');
+            }
+            
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
 }
