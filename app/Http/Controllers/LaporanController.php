@@ -110,6 +110,7 @@ class LaporanController extends Controller
 
                 $laporan->id_laporan = "SILT" . $day . $month . $year . $str;
                 $laporan->user_id = auth()->user()->id;
+                $laporan->user_image = auth()->user()->image;
                 $laporan->nama = auth()->user()->nama;
                 $laporan->nomor = auth()->user()->nomor;
                 $laporan->alamat = $request->alamat;
@@ -120,9 +121,7 @@ class LaporanController extends Controller
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;
                 $laporan->maps = $request->maps;
-                $laporan->catatan_kelurahan = null;
-                $laporan->catatan_laporan_kelurahan = null;
-                $laporan->catatan_laporan_dinas = null;
+                $laporan->konfirmasi_dinas = null;
 
                 $laporan->save();
 
@@ -196,9 +195,7 @@ class LaporanController extends Controller
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;
                 $laporan->maps = $request->maps;
-                $laporan->catatan_kelurahan = null;
-                $laporan->catatan_laporan_kelurahan = null;
-                $laporan->catatan_laporan_dinas = null;
+                $laporan->konfirmasi_dinas = null;
 
                 $laporan->save();
 
