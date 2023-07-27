@@ -11,6 +11,9 @@ class Laporan extends Model
 
     protected $guarded = ['id'];
 
+    protected $konfirmasi_dinas = [true , false];
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }

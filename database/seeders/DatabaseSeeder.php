@@ -140,6 +140,17 @@ class DatabaseSeeder extends Seeder
             "image" => "public/img/ricko.jpg",
             "level" => "pelapor",
         ]);
+        User::create([
+            "nama" => "superadmin",
+            "email" => "superadmin@gmail.com",
+            "password" => bcrypt("superadmin123"),
+            "poin" => 0,
+            "jabatan" => 'superadmin SILANTAR',
+            "nomor" => "6281932224567",
+            "daerah" => "-",
+            "image" => "public/img/superadmin.jpg",
+            "level" => "superadmin",
+        ]);
 
 
         Kategori::create([
@@ -172,12 +183,13 @@ class DatabaseSeeder extends Seeder
             "status_laporan" => "Tuntas",
         ]);
         Status::create([
-            "status_laporan" => "Diserahkan ke Dinas",
+            "status_laporan" => "Pending Dinas",
         ]);
 
         Laporan::create([
             "id_laporan" => "SILT000001",
             "user_id" => 11,
+            "user_image" => 'public/img/ricko.jpg',
             "nama" => "ricko",
             "nomor" => "6281932432218",
             "alamat" => "Jalan padat Karya Komplek Purnama Permai 3",
@@ -187,15 +199,14 @@ class DatabaseSeeder extends Seeder
             "status_lapor" => 1,
             "daerah_kelurahan" => 3,
             "dinas_ajuan" => null,
-            "catatan_kelurahan" => null,
-            "catatan_laporan_kelurahan" => null,
-            "catatan_laporan_dinas" => null,
             "deskripsi" => "di jalan padat karya terdapat sebuah TPS yang tidak semestinya (di dalam lingungan warga)",
+            "konfirmasi_dinas" => null,
         ]);
 
         Laporan::create([
             "id_laporan" => "SILT000002",
             "user_id" => null,
+            "user_image" => null,
             "nama" => "syifa",
             "nomor" => "6281932432217",
             "alamat" => "Jalan jalan ke kota banjarmasin",
@@ -205,10 +216,8 @@ class DatabaseSeeder extends Seeder
             "status_lapor" => 2,
             "daerah_kelurahan" => 6,
             "dinas_ajuan" => null,
-            "catatan_kelurahan" => null,
-            "catatan_laporan_kelurahan" => null,
-            "catatan_laporan_dinas" => null,
             "deskripsi" => "di jalan terdapat banyak kerusakan",
+            "konfirmasi_dinas" => null,
         ]);
 
         Images::create([

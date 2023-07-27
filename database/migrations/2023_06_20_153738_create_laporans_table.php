@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('id_laporan', 100);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('user_image')->nullable();
             $table->string('nama', 150);
             $table->string('nomor', 16);
             $table->text('alamat');
@@ -28,9 +29,7 @@ return new class extends Migration
             $table->foreign('dinas_ajuan')->references('id')->on('users')->onDelete('set null');
             $table->text('deskripsi');
             $table->string('maps');
-            $table->text('catatan_kelurahan')->nullable();
-            $table->text('catatan_laporan_kelurahan')->nullable();
-            $table->text('catatan_laporan_dinas')->nullable();
+            $table->enum('konfirmasi_dinas', [true, false])->nullable();
             $table->timestamps();
         });
     }
