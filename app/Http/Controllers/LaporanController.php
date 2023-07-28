@@ -65,26 +65,14 @@ class LaporanController extends Controller
     public function create()
     {
         try {
-            $idStatus = Status::pluck('id')->all();
-            $status = Status::pluck('status_laporan')->all();
-            $idKategori = Kategori::pluck('id')->all();
-            $kategori = Kategori::pluck('kategori_laporan')->all();
-            $idDaerah = User::where('level', 'kelurahan')->pluck('id')->all();
-            $daerah = User::where('level', 'kelurahan')->pluck('daerah')->all();
+            $status = Status::select('id', 'status_laporan')->get();
+            $kategori = Kategori::select('id','kategori_laporan')->get();
+            $daerah = User::where('level', 'kelurahan')->select('daerah')->get();
 
             $data = [
-                "statusLapor" => [
-                    "value" => $idStatus,
-                    "status" => $status
-                ],
-                "kategoriLapor" => [
-                    "value" => $idKategori,
-                    "kategori" => $kategori
-                ],
-                "daerah Laporan" => [
-                    "value" => $idDaerah,
-                    "daerah" => $daerah,
-                ],
+                "statusLapor" => $status,
+                "kategoriLapor" => $kategori,
+                "daerah Laporan" => $daerah,
             ];
             
             return ApiFormatter::createApi(200, 'success', $data);
