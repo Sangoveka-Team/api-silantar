@@ -120,9 +120,15 @@ class DinasController extends Controller
 
             $images = Images::where('laporan_id', $id)->get();
 
+            $status = Status::select('status_laporan');
+            
+            $notes = Notes::where('laporan_id', $id)->get();
+
             $data = [
                 "dataLaporan" => $laporan,
                 "gambarLaporan" => $images,
+                "catatan" => $notes,
+                "statusLaporan" => $status,
             ];
 
             return ApiFormatter::createApi(200, 'success', $data);
@@ -172,10 +178,46 @@ class DinasController extends Controller
             $notes->note = $request->note;
     
             if ($notes->save()) {
-                return ApiFormatter::createApi(200, 'success', $laporan);
+                $data = [
+                    "laporan" => $laporan,
+                    "catatan" => $notes
+                ];
+                return ApiFormatter::createApi(200, 'success', $data);
             } else{
                 return ApiFormatter::createApi(200, 'failed');
             }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
+    public function confirm(Request $request, $id){
+        try {
+            $konfirmasi = $request->konfirmasi;
+
+            if ($konfirmasi == 1) {
+                $laporan = Laporan::findOrFail($id);
+        
+                $laporan->konfirmasi_dinas = $request->konfirmasi;
+    
+                if ($laporan->update()) {
+                    return ApiFormatter::createApi(200, 'success', $laporan);
+                } else{
+                    return ApiFormatter::createApi(200, 'failed');
+                }
+            } else {
+                $laporan = Laporan::findOrFail($id);
+        
+                $laporan->konfirmasi_dinas = $request->konfirmasi;
+                $laporan->dinas_ajuan = null;
+    
+                if ($laporan->update()) {
+                    return ApiFormatter::createApi(200, 'success', $laporan);
+                } else{
+                    return ApiFormatter::createApi(200, 'failed');
+                }
+            }
+            
         } catch (Exception $error) {
             return ApiFormatter::createApi(401, 'failed', $error);
         }
