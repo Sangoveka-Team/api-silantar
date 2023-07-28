@@ -16,7 +16,7 @@ class Superadmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->level !== 'superadmin')
+        if (auth()->user()->level !== 'Superadmin')
         return ApiFormatter::createApi(403, 'Forbidden');
         return $next($request);
     }
