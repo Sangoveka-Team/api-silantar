@@ -59,6 +59,7 @@ Route::middleware(['auth:sanctum', 'dinas'])->group(function () {
 Route::middleware(['auth:sanctum', 'superadmin'])->group(function () {
     Route::get('dashboard-superadmin', [SuperadminController::class, 'index']);
     Route::get('profile-superadmin', [SuperadminController::class, 'profile']);
+    Route::get('all-laporan', [SuperadminController::class, 'getAllLaporan']);
     Route::post('create-user', [SuperadminController::class, 'storeUser']);
     Route::post('updateprofile-superadmin', [SuperadminController::class, 'updateProfile']);
     Route::get('show-laporan-superadmin/{id}', [SuperadminController::class, 'show']);

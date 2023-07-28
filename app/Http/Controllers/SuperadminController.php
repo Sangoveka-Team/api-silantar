@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Laporan;
 use App\Models\Images;
 use Exception;
+use App\Models\Notes;
 use Illuminate\Http\Request;
 
 class SuperadminController extends Controller
@@ -31,7 +32,8 @@ class SuperadminController extends Controller
                 "jumlahAkunDinas" => $userDinasCount,
                 "jumlahAkunKelurahan" => $userKelurahanCount,
                 "jumlahAkunPelapor" => $userPelaporCount,
-                "namaSuperadmin" => $namaUser,
+                "namaUser" => auth()->user()->nama,
+                "fotoUser" => auth()->user()->image,
                 "allUser" => $allUser,
             ];
 
@@ -42,22 +44,6 @@ class SuperadminController extends Controller
             return ApiFormatter::createApi(401, 'failed', $error);
         }
     }
-
-    // public function createUser(){
-    //     try {
-    //         $userLevel = ['pelapor', 'kelurahan', 'dinas', 'pelapor'];
-
-    //         if ($userLevel) {
-    //             return ApiFormatter::createApi(200, 'success', $userLevel);
-    //         } else{
-    //             return ApiFormatter::createApi(401, 'failed');
-    //         }
-            
-    //     } catch (Exception $error) {
-    //         return ApiFormatter::createApi(401, 'failed', $error);
-
-    //     }
-    // }
 
 
     public function storeUser(Request $request){
@@ -174,6 +160,16 @@ class SuperadminController extends Controller
             
         } catch (Exception $error) {
             return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
+    public function getAllLaporan(){
+        try {
+            $laporan = Laporan::all();
+
+            return ApiFormatter::createApi(200, 'success', $laporan);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(200, 'success', $error);
         }
     }
 
