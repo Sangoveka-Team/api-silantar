@@ -53,6 +53,9 @@ Route::middleware(['auth:sanctum', 'dinas'])->group(function () {
     Route::post('updateprofile-dinas', [DInasController::class, 'updateProfile']);
     Route::get('show-laporan-dinas/{id}', [DinasController::class, 'show']);
     Route::get('detail-pelapor-dinas/{id}', [DinasController::class, 'cekUserPelapor']);
+    Route::post('update-status-lapor/{id}', [DinasController::class, 'updateStatusLapor']);
+    Route::post('konfirmasi-ajuan/{id}', [DinasController::class, 'confirm']);
+
     
 });
 

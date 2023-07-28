@@ -123,11 +123,14 @@ class KelurahanController extends Controller
 
             $images = Images::where('laporan_id', $id)->get();
 
-            $status = Status::select('status_laporan');
+            $status = Status::select('status_laporan')->get();
+            
+            $notes = Notes::where('laporan_id', $id)->get();
 
             $data = [
                 "dataLaporan" => $laporan,
                 "gambarLaporan" => $images,
+                "catatan" => $notes,
                 "statusLaporan" => $status,
             ];
 
@@ -153,7 +156,11 @@ class KelurahanController extends Controller
             $notes->note = $request->note;
     
             if ($notes->save()) {
-                return ApiFormatter::createApi(200, 'success', $laporan);
+                $data = [
+                    "laporan" => $laporan,
+                    "catatan" => $notes
+                ];
+                return ApiFormatter::createApi(200, 'success', $data);
             } else{
                 return ApiFormatter::createApi(200, 'failed');
             }

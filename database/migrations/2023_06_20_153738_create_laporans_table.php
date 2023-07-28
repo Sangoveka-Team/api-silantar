@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('dinas_ajuan')->nullable();
             $table->text('deskripsi');
             $table->string('maps');
-            $table->enum('konfirmasi_dinas', [true, false])->nullable();
+            $table->enum('konfirmasi_dinas', ['true', 'false']);
             $table->timestamps();
         });
     }

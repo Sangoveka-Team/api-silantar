@@ -7,6 +7,7 @@ use App\Helper\uniqueGenerateIdLapor;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Exception;
+use App\Models\Notes;
 use App\Models\Images;
 use App\Models\Kategori;
 use App\Models\Status;
@@ -250,9 +251,12 @@ class LaporanController extends Controller
 
             $images = Images::where('laporan_id', $id)->get();
 
+            $notes = Notes::where('laporan_id', $id)->get();
+
             $data = [
                 "dataLaporan" => $laporan,
                 "gambarLaporan" => $images,
+                "catatan" => $notes,
             ];
 
             return ApiFormatter::createApi(200, 'success', $data);
