@@ -8,6 +8,7 @@ use App\Helper\uniqueGenerateIdLapor;
 use App\Models\Laporan;
 use Exception;
 use App\Models\Images;
+use App\Models\Notes;
 use App\Models\Kategori;
 use App\Models\Status;
 use App\Models\User;
@@ -43,7 +44,8 @@ class DinasController extends Controller
                 "laporanDiproses" => $laporaniprosesCount,
                 "laporanDitolak" => $laporanDitolakCount,
                 "laporanTuntas" => $laporanTuntasCount,
-                "namaAdminDinas" => $namaUser,
+                "namaUser" => auth()->user()->nama,
+                "fotoUser" => auth()->user()->image,
                 "laporanDinas" => $allLaporan,
             ];
 
@@ -149,6 +151,31 @@ class DinasController extends Controller
             ];
 
             return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
+    public function updateStatusLapor(Request $request, $id){
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $laporan->status_lapor = $request->status_lapor;
+
+            $laporan->save();
+
+            $notes = new Notes;
+
+            $notes->Laporan_id = $id;
+            $notes->penulis = auth()->user()->jabatan;
+            $notes->deskripsi_tambahan = null;
+            $notes->note = $request->note;
+    
+            if ($notes->save()) {
+                return ApiFormatter::createApi(200, 'success', $laporan);
+            } else{
+                return ApiFormatter::createApi(200, 'failed');
+            }
         } catch (Exception $error) {
             return ApiFormatter::createApi(401, 'failed', $error);
         }

@@ -46,7 +46,8 @@ class KelurahanController extends Controller
                 "laporanDiproses" => $laporaniprosesCount,
                 "laporanDitolak" => $laporanDitolakCount,
                 "laporanTuntas" => $laporanTuntasCount,
-                "namaAdminKelurahan" => $namaUser,
+                "namaUser" => auth()->user()->nama,
+                "fotoUser" => auth()->user()->image,
                 "laporanLurah" => $allLaporan,
             ];
 
@@ -141,8 +142,17 @@ class KelurahanController extends Controller
             $laporan = Laporan::findOrFail($id);
 
             $laporan->status_lapor = $request->status_lapor;
+
+            $laporan->save();
+
+            $notes = new Notes;
+
+            $notes->Laporan_id = $id;
+            $notes->penulis = auth()->user()->jabatan;
+            $notes->deskripsi_tambahan = null;
+            $notes->note = $request->note;
     
-            if ($laporan->save()) {
+            if ($notes->save()) {
                 return ApiFormatter::createApi(200, 'success', $laporan);
             } else{
                 return ApiFormatter::createApi(200, 'failed');
