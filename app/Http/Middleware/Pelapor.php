@@ -16,7 +16,7 @@ class Pelapor
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->level !== 'pelapor')
+        if (auth()->user()->level !== 'Pelapor')
         return ApiFormatter::createApi(403, 'Forbidden');
         return $next($request);
     }

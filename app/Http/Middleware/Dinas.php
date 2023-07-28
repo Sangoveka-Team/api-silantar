@@ -16,7 +16,7 @@ class Dinas
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->level !== 'dinas')
+        if (auth()->user()->level !== 'Dinas')
         return ApiFormatter::createApi(403, 'Forbidden');
         return $next($request);
     }

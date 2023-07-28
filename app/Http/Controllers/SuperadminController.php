@@ -14,9 +14,9 @@ class SuperadminController extends Controller
     public function index(){
         try {
             $allUser = User::all();
-            $userDinas = User::where('level', 'dinas')->get();
-            $userKelurahan = User::where('level', 'kelurahan')->get();
-            $userPelapor = User::where('level', 'pelapor')->get();
+            $userDinas = User::where('level', 'Dinas')->get();
+            $userKelurahan = User::where('level', 'Kelurahan')->get();
+            $userPelapor = User::where('level', 'Pelapor')->get();
 
             $userCount = $allUser->count();
             $userDinasCount = $userDinas->count();
@@ -174,6 +174,24 @@ class SuperadminController extends Controller
             
         } catch (Exception $error) {
             return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
+    public function show(string $id)
+    {
+        try {
+            $laporan = Laporan::findOrFail($id);
+
+            $images = Images::where('laporan_id', $id)->get();
+
+            $data = [
+                "dataLaporan" => $laporan,
+                "gambarLaporan" => $images,
+            ];
+
+            return ApiFormatter::createApi(200, 'success', $data);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(200, 'success', $error);
         }
     }
 }

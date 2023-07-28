@@ -16,7 +16,7 @@ class Lurah
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->level !== 'kelurahan')
+        if (auth()->user()->level !== 'Kelurahan')
         return ApiFormatter::createApi(403, 'Forbidden');
         return $next($request);
     }
