@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'pelapor'])->group(function () {
 Route::middleware(['auth:sanctum', 'lurah'])->group(function () {
     Route::get('dashboard-lurah', [KelurahanController::class, 'index']);
     Route::get('profile-lurah', [KelurahanController::class, 'profile']);
+    Route::get('get-dinas', [KelurahanController::class, 'getDinas']);
     Route::get('detail-pelapor-lurah/{id}', [KelurahanController::class, 'cekUserPelapor']);
     Route::post('updateprofile-lurah', [KelurahanController::class, 'updateProfile']);
     Route::post('update-status/{id}', [KelurahanController::class, 'updateStatusLapor']);
@@ -50,7 +51,7 @@ Route::middleware(['auth:sanctum', 'dinas'])->group(function () {
     Route::get('dashboard-dinas', [DinasController::class, 'index']);
     Route::get('profile-dinas', [DinasController::class, 'profile']);
     Route::post('updateprofile-dinas', [DInasController::class, 'updateProfile']);
-    Route::get('show-laporan/{id}', [DinasController::class, 'show']);
+    Route::get('show-laporan-dinas/{id}', [DinasController::class, 'show']);
     Route::get('detail-pelapor-dinas/{id}', [DinasController::class, 'cekUserPelapor']);
     
 });
@@ -60,7 +61,7 @@ Route::middleware(['auth:sanctum', 'superadmin'])->group(function () {
     Route::get('profile-superadmin', [SuperadminController::class, 'profile']);
     Route::post('create-user', [SuperadminController::class, 'storeUser']);
     Route::post('updateprofile-superadmin', [SuperadminController::class, 'updateProfile']);
-    Route::get('show-laporan/{id}', [SuperadminController::class, 'show']);
+    Route::get('show-laporan-superadmin/{id}', [SuperadminController::class, 'show']);
     Route::get('detail-pelapor-superadmin/{id}', [SuperadminController::class, 'cekUserPelapor']);
     Route::delete('delete-user/{id}', [SuperadminController::class, 'deleteUser']);
     

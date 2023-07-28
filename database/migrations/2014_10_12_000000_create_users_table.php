@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('jabatan')->nullable();
             $table->string('daerah');
             $table->string('image')->nullable();
-            $table->enum('level', ['pelapor', 'kelurahan', 'dinas', 'superadmin'])->default('pelapor');
+            $table->enum('level', ['Pelapor', 'Kelurahan', 'Dinas', 'Superadmin'])->default('Pelapor');
             // $table->rememberToken();
             $table->timestamps();
         });

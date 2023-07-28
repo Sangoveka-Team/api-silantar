@@ -21,12 +21,10 @@ return new class extends Migration
             $table->string('nomor', 16);
             $table->text('alamat');
             $table->dateTime('tanggal');
-            $table->foreignId('kategori_lapor')->constrained('kategoris');
-            $table->foreignId('status_lapor')->constrained('statuses');
-            $table->unsignedBigInteger('daerah_kelurahan')->nullable();
-            $table->foreign('daerah_kelurahan')->references('id')->on('users')->onDelete('set null');
-            $table->unsignedBigInteger('dinas_ajuan')->nullable();
-            $table->foreign('dinas_ajuan')->references('id')->on('users')->onDelete('set null');
+            $table->string('kategori_lapor');
+            $table->string('status_lapor');
+            $table->string('daerah_kelurahan')->nullable();
+            $table->string('dinas_ajuan')->nullable();
             $table->text('deskripsi');
             $table->string('maps');
             $table->enum('konfirmasi_dinas', [true, false])->nullable();
