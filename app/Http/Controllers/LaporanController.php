@@ -67,7 +67,7 @@ class LaporanController extends Controller
         try {
             $status = Status::select('id', 'status_laporan')->get();
             $kategori = Kategori::select('id','kategori_laporan')->get();
-            $daerah = User::where('level', 'kelurahan')->select('daerah')->get();
+            $daerah = User::where('level', 'kelurahan')->select('id', 'daerah')->get();
 
             $data = [
                 "statusLapor" => $status,
