@@ -22,11 +22,11 @@ class DinasController extends Controller
     public function index()
     {
         try {
-            $allLaporan = Laporan::where('dinas_ajuan', auth()->user()->id)->get();
-            $allLaporanBelumDiproses = Laporan::where('dinas_ajuan', auth()->user()->id)->where('status_lapor', 1)->get();
-            $allLaporanDiproses = Laporan::where('dinas_ajuan', auth()->user()->id)->where('status_lapor', 2)->get();
-            $allLaporanDitolak = Laporan::where('dinas_ajuan', auth()->user()->id)->where('status_lapor', 3)->get();
-            $allLaporanTuntas = Laporan::where('dinas_ajuan', auth()->user()->id)->where('status_lapor', 4)->get();
+            $allLaporan = Laporan::where('dinas_ajuan', auth()->user()->jabatan)->get();
+            $allLaporanBelumDiproses = Laporan::where('dinas_ajuan', auth()->user()->jabatan)->where('status_lapor', "Belum Diproses")->get();
+            $allLaporanDiproses = Laporan::where('dinas_ajuan', auth()->user()->jabatan)->where('status_lapor', "Diproses")->orWhere('status_lapor', "Pending Dinas")->get();
+            $allLaporanDitolak = Laporan::where('dinas_ajuan', auth()->user()->jabatan)->where('status_lapor', "Ditolak")->get();
+            $allLaporanTuntas = Laporan::where('dinas_ajuan', auth()->user()->jabatan)->where('status_lapor', "Tuntas")->get();
 
             $laporanCount = $allLaporan->count();
             $laporanBelumDiprosesCount = $allLaporanBelumDiproses->count();
@@ -61,7 +61,7 @@ class DinasController extends Controller
     public function profile()
     {
         try {
-            $user = User::find(auth()->user()->id);
+            $user = User::find(auth()->user()->jabatan);
 
             return ApiFormatter::createApi(200, 'success', $user);
 
@@ -76,7 +76,7 @@ class DinasController extends Controller
     public function updateProfile(Request $request)
     {
         try {
-            $user = User::findOrFail(auth()->user()->id);
+            $user = User::findOrFail(auth()->user()->jabatan);
 
             $user->nama = $request->nama;
             $user->nomor = $request->nomor;

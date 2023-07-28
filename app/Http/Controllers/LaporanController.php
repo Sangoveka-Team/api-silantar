@@ -23,10 +23,10 @@ class LaporanController extends Controller
     public function index()
     {
         try {
-            $allLaporanBelumDiproses = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', 1)->get();
-            $allLaporanDiproses = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', 2)->get();
-            $allLaporanDitolak = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', 3)->get();
-            $allLaporanTuntas = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', 4)->get();
+            $allLaporanBelumDiproses = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', "Belum Diproses")->get();
+            $allLaporanDiproses = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', "Diproses")->get();
+            $allLaporanDitolak = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', "Ditolak")->get();
+            $allLaporanTuntas = Laporan::where('user_id', auth()->user()->id)->where('status_lapor', "Tuntas")->get();
 
             $laporanBelumDiprosesCount = $allLaporanBelumDiproses->count();
             $laporaniprosesCount = $allLaporanDiproses->count();
@@ -47,7 +47,8 @@ class LaporanController extends Controller
                 "poinUser" => $poinUser,
                 "laporanTerakhir" => $laporanTerakhir,
                 "laporanImages" => $laporanImages,
-                "userData" => auth()->user(),
+                "namaUser" => auth()->user()->nama,
+                "fotoUser" => auth()->user()->image,
             ];
 
             return ApiFormatter::createApi(200, 'success', $data);
@@ -65,12 +66,10 @@ class LaporanController extends Controller
     public function create()
     {
         try {
-            $status = Status::select('id', 'status_laporan')->get();
-            $kategori = Kategori::select('id','kategori_laporan')->get();
-            $daerah = User::where('level', 'kelurahan')->select('id', 'daerah')->get();
+            $kategori = Kategori::select('kategori_laporan')->get();
+            $daerah = User::where('level', 'Kelurahan')->select('daerah')->get();
 
             $data = [
-                "statusLapor" => $status,
                 "kategoriLapor" => $kategori,
                 "daerah Laporan" => $daerah,
             ];
@@ -117,7 +116,7 @@ class LaporanController extends Controller
                 $laporan->alamat = $request->alamat;
                 $laporan->tanggal = Carbon::now()->format('Y-m-d H:i:s');
                 $laporan->kategori_lapor = $request->kategori_lapor;
-                $laporan->status_lapor = 1;
+                $laporan->status_lapor = "Belum Diproses";
                 $laporan->daerah_kelurahan = $request->daerah_kelurahan;
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;
@@ -191,7 +190,7 @@ class LaporanController extends Controller
                 $laporan->alamat = $request->alamat;
                 $laporan->tanggal = Carbon::now()->format('Y-m-d H:i:s');
                 $laporan->kategori_lapor = $request->kategori_lapor;
-                $laporan->status_lapor = 1;
+                $laporan->status_lapor = "Belum Diproses";
                 $laporan->daerah_kelurahan = $request->daerah_kelurahan;
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;

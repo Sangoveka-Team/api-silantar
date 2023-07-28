@@ -24,11 +24,11 @@ class KelurahanController extends Controller
     public function index()
     {
         try {
-            $allLaporan = Laporan::where('daerah_kelurahan', auth()->user()->id)->get();
-            $allLaporanBelumDiproses = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 1)->get();
-            $allLaporanDiproses = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 2)->orWhere('status_lapor', 5)->get();
-            $allLaporanDitolak = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 3)->get();
-            $allLaporanTuntas = Laporan::where('daerah_kelurahan', auth()->user()->id)->where('status_lapor', 4)->get();
+            $allLaporan = Laporan::where('daerah_kelurahan', auth()->user()->daerah)->get();
+            $allLaporanBelumDiproses = Laporan::where('daerah_kelurahan', auth()->user()->daerah)->where('status_lapor', "Belum Diproses")->get();
+            $allLaporanDiproses = Laporan::where('daerah_kelurahan', auth()->user()->daerah)->where('status_lapor', "Diproses")->orWhere('status_lapor', "Pending Dinas")->get();
+            $allLaporanDitolak = Laporan::where('daerah_kelurahan', auth()->user()->daerah)->where('status_lapor', "Ditolak")->get();
+            $allLaporanTuntas = Laporan::where('daerah_kelurahan', auth()->user()->daerah)->where('status_lapor', "Tuntas")->get();
 
             $laporanCount = $allLaporan->count();
             $laporanBelumDiprosesCount = $allLaporanBelumDiproses->count();
@@ -122,7 +122,7 @@ class KelurahanController extends Controller
 
             $images = Images::where('laporan_id', $id)->get();
 
-            $status = Status::all();
+            $status = Status::select('status_laporan');
 
             $data = [
                 "dataLaporan" => $laporan,
@@ -152,13 +152,27 @@ class KelurahanController extends Controller
         }
     }
 
+    public function getDinas(){
+        try {
+            $namaDinas = User::where('level', 'Dinas')->select('jabatan')->get();
+            
+            if ($namaDinas) {
+                return ApiFormatter::createApi(200, 'success', $namaDinas);
+            } else {
+                return ApiFormatter::createApi(401, 'failed');
+            }
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
+    }
+
 
     public function ajuanKeDinas(Request $request, $id){
         try {
             $laporan = Laporan::findOrFail($id);
 
             $laporan->dinas_ajuan = $request->dinas_ajuan;
-            $laporan->status_lapor = 5;
+            $laporan->status_lapor = "Pending Dinas";
 
             $laporan->save();
 
