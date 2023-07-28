@@ -47,6 +47,7 @@ class LaporanController extends Controller
                 "poinUser" => $poinUser,
                 "laporanTerakhir" => $laporanTerakhir,
                 "laporanImages" => $laporanImages,
+                "userData" => auth()->user(),
             ];
 
             return ApiFormatter::createApi(200, 'success', $data);
@@ -64,14 +65,26 @@ class LaporanController extends Controller
     public function create()
     {
         try {
-            $status = Status::pluck('status_laporan', 'id')->all();
-            $kategori = Kategori::pluck('kategori_laporan', 'id')->all();
-            $daerah = User::where('level', 'kelurahan')->pluck('daerah', 'id')->all();
+            $idStatus = Status::pluck('id')->all();
+            $status = Status::pluck('status_laporan')->all();
+            $idKategori = Kategori::pluck('id')->all();
+            $kategori = Kategori::pluck('kategori_laporan')->all();
+            $idDaerah = User::where('level', 'kelurahan')->pluck('id')->all();
+            $daerah = User::where('level', 'kelurahan')->pluck('daerah')->all();
 
             $data = [
-                "statusLapor" => $status,
-                "kategoriLapor" => $kategori,
-                "daerah Laporan" => $daerah,
+                "statusLapor" => [
+                    "value" => $idStatus,
+                    "status" => $status
+                ],
+                "kategoriLapor" => [
+                    "value" => $idKategori,
+                    "kategori" => $kategori
+                ],
+                "daerah Laporan" => [
+                    "value" => $idDaerah,
+                    "daerah" => $daerah,
+                ],
             ];
             
             return ApiFormatter::createApi(200, 'success', $data);
