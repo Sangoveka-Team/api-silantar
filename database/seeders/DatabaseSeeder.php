@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             "email" => "lurahalalak@gmail.com",
             "password" => bcrypt("alalak123"),
             "poin" => 0,
-            "jabatan" => "kelurahan Alalak",
+            "jabatan" => "Kelurahan Alalak",
             "nomor" => "6281932432211",
             "daerah" => "Alalak",
             "image" => "imgProfil1.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Sungai Jingah",
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             "nomor" => "6281932432212",
             "daerah" => "Sungai Jingah",
             "image" => "imgProfil2.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Sungai Andai",
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             "nomor" => "6281932432213",
             "daerah" => "Sungai Andai",
             "image" => "imgProfil3.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Angsau",
@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
             "nomor" => "6281932432214",
             "daerah" => "Angsau",
             "image" => "imgProfil4.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Antasan Besar",
@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
             "nomor" => "6281932432215",
             "daerah" => "Antasan Besar",
             "image" => "imgProfil5.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Kelurahan Antasan Kecil",
@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
             "nomor" => "6281932432216",
             "daerah" => "Antasan Kecil",
             "image" => "imgProfil6.jpg",
-            "level" => "kelurahan",
+            "level" => "Kelurahan",
         ]);
         User::create([
             "nama" => "Dinas Lingkungan Hidup",
@@ -200,7 +200,6 @@ class DatabaseSeeder extends Seeder
             "daerah_kelurahan" => "Sungai Andai",
             "dinas_ajuan" => null,
             "deskripsi" => "di jalan padat karya terdapat sebuah TPS yang tidak semestinya (di dalam lingungan warga)",
-            "konfirmasi_dinas" => null,
         ]);
 
         Laporan::create([
@@ -217,7 +216,6 @@ class DatabaseSeeder extends Seeder
             "daerah_kelurahan" => "Antasan Kecil",
             "dinas_ajuan" => null,
             "deskripsi" => "di jalan terdapat banyak kerusakan",
-            "konfirmasi_dinas" => null,
         ]);
 
         Images::create([
