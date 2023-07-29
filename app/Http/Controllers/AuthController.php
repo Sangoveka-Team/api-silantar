@@ -72,7 +72,7 @@ class AuthController extends Controller
                 
             }
         } catch (Exception $error) {
-            return ApiFormatter::createApi(401, 'Login Failed', $error);
+            return ApiFormatter::createApi(422, 'invalid', $error);
         }
     }
 

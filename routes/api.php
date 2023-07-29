@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', 'lurah'])->group(function () {
     Route::post('updateprofile-lurah', [KelurahanController::class, 'updateProfile']);
     Route::post('update-status/{id}', [KelurahanController::class, 'updateStatusLapor']);
     Route::post('ajuan-ke-dinas/{id}', [KelurahanController::class, 'ajuanKeDinas']);
-    Route::get('show-laporan/{id}', [KelurahanController::class, 'show']);
+    Route::get('show-laporan-lurah/{id}', [KelurahanController::class, 'show']);
 
     
 });

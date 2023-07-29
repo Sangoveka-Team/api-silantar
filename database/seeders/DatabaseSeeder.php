@@ -220,11 +220,11 @@ class DatabaseSeeder extends Seeder
 
         Images::create([
             "laporan_id" => "1",
-            "image_name" => "gambar1.jpg",
+            "image_name" => "public/img/gambar1.jpg",
         ]);
         Images::create([
             "laporan_id" => "1",
-            "image_name" => "gambar2.jpg",
+            "image_name" => "public/img/gambar2.jpg",
         ]);
         
     }
