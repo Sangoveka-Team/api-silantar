@@ -18,7 +18,7 @@ class VerifyEmailController extends Controller
         if (!$user->hasVerifiedEmail() && hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
             $user->markEmailAsVerified();
             event(new Verified($user));
-            return response()->json(['message' => 'Email verified successfully'], 200);
+            return view('mailVerified');
         }
     
         return response()->json(['message' => 'Invalid verification link'], 422);
