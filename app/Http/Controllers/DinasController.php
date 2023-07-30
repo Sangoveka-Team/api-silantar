@@ -63,7 +63,7 @@ class DinasController extends Controller
     public function profile()
     {
         try {
-            $user = User::find(auth()->user()->jabatan);
+            $user = User::find(auth()->user()->id);
 
             return ApiFormatter::createApi(200, 'success', $user);
 
@@ -178,6 +178,14 @@ class DinasController extends Controller
             $notes->note = $request->note;
     
             if ($notes->save()) {
+                if ($laporan->status_lapor == "Tuntas") {
+                    $user = User::findOrFail($laporan->user_id);
+
+                    $user->poin = 10;
+
+                    $user->update();
+                }
+
                 $data = [
                     "laporan" => $laporan,
                     "catatan" => $notes

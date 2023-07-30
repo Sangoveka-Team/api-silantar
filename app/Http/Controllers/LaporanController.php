@@ -186,7 +186,7 @@ class LaporanController extends Controller
 
                 $laporan->id_laporan = "SILT" . $day . $month . $year . $str;
                 $laporan->user_id = null;
-                $laporan->user_image = auth()->user()->image;
+                $laporan->user_image = null;
                 $laporan->nama = $request->nama;
                 $laporan->nomor = '62' . $request->nomor;
                 $laporan->alamat = $request->alamat;
@@ -316,5 +316,15 @@ class LaporanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function allLaporan(){
+        try {
+            $laporan = Laporan::all();
+            
+            return ApiFormatter::createApi(200, 'success get data', $laporan);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+        }
     }
 }

@@ -156,6 +156,14 @@ class KelurahanController extends Controller
             $notes->note = $request->note;
     
             if ($notes->save()) {
+                if ($laporan->status_lapor == "Tuntas") {
+                    $user = User::findOrFail($laporan->user_id);
+
+                    $user->poin = 10;
+
+                    $user->update();
+                }
+                
                 $data = [
                     "laporan" => $laporan,
                     "catatan" => $notes

@@ -144,7 +144,7 @@ class AuthController extends Controller
     }
 
     public function resetPasword(Request $request){
-        $request->validate()
+        $request->validate();
     }
 
 }
