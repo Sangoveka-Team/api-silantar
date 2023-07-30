@@ -137,7 +137,7 @@ class DatabaseSeeder extends Seeder
             "jabatan" => null,
             "nomor" => "6281932432218",
             "daerah" => "-",
-            "image" => "public/img/ricko.jpg",
+            "image" => "img/superadmin.jpg",
             "level" => "Pelapor",
         ]);
         User::create([
@@ -189,7 +189,7 @@ class DatabaseSeeder extends Seeder
         Laporan::create([
             "id_laporan" => "SILT000001",
             "user_id" => 11,
-            "user_image" => 'public/img/ricko.jpg',
+            "user_image" => 'img/ricko.jpg',
             "nama" => "ricko",
             "nomor" => "6281932432218",
             "alamat" => "Jalan padat Karya Komplek Purnama Permai 3",
@@ -220,11 +220,11 @@ class DatabaseSeeder extends Seeder
 
         Images::create([
             "laporan_id" => "1",
-            "image_name" => "public/img/gambar1.jpg",
+            "image_name" => "img/gambar1.jpg",
         ]);
         Images::create([
             "laporan_id" => "1",
-            "image_name" => "public/img/gambar2.jpg",
+            "image_name" => "img/gambar2.jpg",
         ]);
         
     }

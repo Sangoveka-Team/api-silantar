@@ -127,8 +127,9 @@ class LaporanController extends Controller
                     $images = $request->file('image');   
 
                     foreach ($images as $image) {
+                         $binaryImage = base64_decode($image);
                         $imageName = time() . '.' . $image->extension();
-                        $image->move(public_path('img'), $imageName);
+                        file_put_contents(public_path('img/' . $imageName), $binaryImage);
                         $path = 'img/' . $imageName;
                         $fileImage = new Images;
                         $fileImage->laporan_id = $laporan->id;
@@ -155,7 +156,7 @@ class LaporanController extends Controller
                 }
                 
 
-            } catch (\Throwable $error) {
+            } catch (Exception $error) {
                 return ApiFormatter::createApi(401, 'failed', $error);
             }
 
@@ -202,8 +203,9 @@ class LaporanController extends Controller
                     $images = $request->file('image');   
 
                     foreach ($images as $image) {
+                        $binaryImage = base64_decode($image);
                         $imageName = time() . '.' . $image->extension();
-                        $image->move(public_path('img'), $imageName);
+                        file_put_contents(public_path('img/' . $imageName), $binaryImage);
                         $path = 'img/' . $imageName;
                         $fileImage = new Images;
                         $fileImage->laporan_id = $laporan->id;
@@ -232,8 +234,8 @@ class LaporanController extends Controller
                 }
                 
 
-            } catch (\Throwable $error) {
-                // return ApiFormatter::createApi(401, 'failed', $error);
+            } catch (Exception $error) {
+                return ApiFormatter::createApi(401, 'failed', $error);
             }
         }
         
