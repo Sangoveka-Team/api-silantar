@@ -36,8 +36,6 @@ class LaporanController extends Controller
 
             $laporanTerakhir = Laporan::where('user_id', auth()->user()->id)->latest()->first();
 
-            $laporanImages = Images::where('laporan_id', $laporanTerakhir->id)->first();
-
             $poinUser = auth()->user()->poin;
 
             $data = [
@@ -46,8 +44,7 @@ class LaporanController extends Controller
                 "laporanDitolak" => $laporanDitolakCount,
                 "laporanTuntas" => $laporanTuntasCount,
                 "poinUser" => $poinUser,
-                "laporanTerakhir" => $laporanTerakhir,
-                "laporanImages" => $laporanImages,
+                "laporanTerakhir" => $laporanTerakhir === null ? null : $laporanTerakhir,
                 "namaUser" => auth()->user()->nama,
                 "fotoUser" => auth()->user()->image,
             ];
