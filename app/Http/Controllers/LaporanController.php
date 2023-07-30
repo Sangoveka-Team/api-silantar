@@ -324,4 +324,15 @@ class LaporanController extends Controller
             return ApiFormatter::createApi(401, 'failed', $error);
         }
     }
+
+    public function laporanTerbaru(){
+        try {
+            $laporan = Laporan::orderBy('tanggal', 'desc')->get();
+
+            return ApiFormatter::createApi(200, 'success get data', $laporan);
+        } catch (Exception $error) {
+            return ApiFormatter::createApi(401, 'failed', $error);
+
+        }
+    }
 }

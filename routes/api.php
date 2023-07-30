@@ -78,3 +78,4 @@ Route::post('post-lapor-guest', [LaporanController::class, 'store']);
 Route::post('forgot-password ', [AuthController::class, 'forgotPassword']);
 Route::get('email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->name('verification.verify');
 Route::get('/get-laporan', [LaporanController::class, 'allLaporan']);
+Route::get('laporan-terbaru', [LaporanController::class, 'laporanTerbaru']);
