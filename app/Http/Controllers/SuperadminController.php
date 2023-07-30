@@ -103,7 +103,7 @@ class SuperadminController extends Controller
                 $image = $request->file('image');
                 $imageName = time() . '.' . $image->extension();
                 $image->move(public_path('img'), $imageName);
-                $path =  "public/img/" . $imageName;
+                $path =  "img/" . $imageName;
                 
                 $user->image = $path;
             } else {

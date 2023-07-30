@@ -93,7 +93,7 @@ class KelurahanController extends Controller
                 $image = $request->file('image');
                 $imageName = time() . '.' . $image->extension();
                 $image->move(public_path('img'), $imageName);
-                $path =  "public/img/" . $imageName;
+                $path =  "img/" . $imageName;
                 
                 $user->image = $path;
             } else {
@@ -187,6 +187,7 @@ class KelurahanController extends Controller
     public function ajuanKeDinas(Request $request, $id){
         try {
             $laporan = Laporan::findOrFail($id);
+
 
             $laporan->dinas_ajuan = $request->dinas_ajuan;
             $laporan->status_lapor = "Pending Dinas";

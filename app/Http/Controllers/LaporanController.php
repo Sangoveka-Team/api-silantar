@@ -132,7 +132,7 @@ class LaporanController extends Controller
                     foreach ($images as $image) {
                         $imageName = time() . '.' . $image->extension();
                         $image->move(public_path('img'), $imageName);
-                        $path = 'public/img/' . $imageName;
+                        $path = 'img/' . $imageName;
                         $fileImage = new Images;
                         $fileImage->laporan_id = $laporan->id;
                         $fileImage->image_name = $path;
@@ -186,6 +186,7 @@ class LaporanController extends Controller
 
                 $laporan->id_laporan = "SILT" . $day . $month . $year . $str;
                 $laporan->user_id = null;
+                $laporan->user_image = auth()->user()->image;
                 $laporan->nama = $request->nama;
                 $laporan->nomor = '62' . $request->nomor;
                 $laporan->alamat = $request->alamat;
@@ -206,7 +207,7 @@ class LaporanController extends Controller
                     foreach ($images as $image) {
                         $imageName = time() . '.' . $image->extension();
                         $image->move(public_path('img'), $imageName);
-                        $path = 'public/img/' . $imageName;
+                        $path = 'img/' . $imageName;
                         $fileImage = new Images;
                         $fileImage->laporan_id = $laporan->id;
                         $fileImage->image_name = $path;
