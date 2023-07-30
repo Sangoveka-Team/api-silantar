@@ -195,7 +195,7 @@ class DinasController extends Controller
         try {
             $konfirmasi = $request->konfirmasi;
 
-            if ($konfirmasi == 1) {
+            if ($konfirmasi == 'true') {
                 $laporan = Laporan::findOrFail($id);
         
                 $laporan->konfirmasi_dinas = $request->konfirmasi;

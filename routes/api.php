@@ -74,6 +74,6 @@ Route::middleware(['auth:sanctum', 'superadmin'])->group(function () {
 Route::get('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'registerUser']);
-Route::get('email/verify/{id}', [AuthController::class, 'verify'])->name('verification.verify');
 Route::post('post-lapor-guest', [LaporanController::class, 'store']);
+Route::post('forgot-password ', [AuthController::class, 'forgotPassword']);
 Route::get('email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->name('verification.verify');

@@ -122,7 +122,7 @@ class LaporanController extends Controller
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;
                 $laporan->maps = $request->maps;
-                $laporan->konfirmasi_dinas = null;
+                $laporan->konfirmasi_dinas = 'false';
 
                 $laporan->save();
 
@@ -196,7 +196,7 @@ class LaporanController extends Controller
                 $laporan->dinas_ajuan = null;
                 $laporan->deskripsi = $request->deskripsi;
                 $laporan->maps = $request->maps;
-                $laporan->konfirmasi_dinas = null;
+                $laporan->konfirmasi_dinas = 'false';
 
                 $laporan->save();
 
