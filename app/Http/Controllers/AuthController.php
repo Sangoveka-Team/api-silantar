@@ -40,7 +40,7 @@ class AuthController extends Controller
             if($user->save()){
                 event(new Registered($user));
                 // Auth::login($user);
-                $user->sendEmailVerificationNotification();
+                // $user->sendEmailVerificationNotification();
                 // $token = $user->createToken('token')->plainTextToken;
                 return ApiFormatter::createApi(200, 'register berhasil', $user);
             } else{
